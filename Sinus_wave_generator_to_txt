@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+int main()
+{
+    char R[4]; // resolution in bits
+    char A[4]; // amplitude in bits
+    double Rb, Ab, P0b; // resolution, amplitude and zero point in double
+    double Amplitude, Resolution, Zeropoint, Outputvalue;
+    int X = 2;
+    int whenvalue = 0;
+    
+    printf("Enter the resolution in bits\n");
+    fgets(R, sizeof(R), stdin);
+    Rb = atof(R);
+    printf("Enter the amplidude in bits\n");
+    fgets(A, sizeof(A), stdin);
+    Ab = atof(A);
+    
+    P0b = Ab/2 ;
+    
+    printf("The amplitude: %2.0f, The resolution %2.0f, The sinus starts at: %2.1f\n\n", Ab, Rb, P0b);
+    
+    // Another step is converting bits to integer
+    // This is necessary to recieve sinus values
+    
+    Amplitude = pow(X, Ab);
+    Resolution = pow(X, Rb);
+    Zeropoint = Amplitude/2;
+    
+    printf("The amplitude: %10.0f, The resolution %10.0f, Zeropoint %10.0f\n", Amplitude, Resolution, Zeropoint);
+    
+    FILE *f = fopen("text.txt", "w");
+    for(int i = 0; i < Resolution; i++ ){
+    Outputvalue = (sin(whenvalue*(2*M_PI)/Resolution)+1)*Amplitude/2;
+    whenvalue ++;
+    fprintf(f,"%6.f\n", Outputvalue);}
+    fclose(f);
+    return 0;
+}
