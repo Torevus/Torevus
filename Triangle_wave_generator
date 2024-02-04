@@ -1,0 +1,66 @@
+// The program generates triangle wave from 0 to max. It's for ROM or LUT's purposes to generate data.
+// Preprocessor declarations
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+// Value of X is a representation of square
+#define X 2
+
+// Triangle wave cyclic function
+
+int triangle_wave(int x, int amplitude) {
+    x = x % (2 * amplitude);
+
+    if (x < amplitude) {
+        return x;
+    } else {
+        return 2 * amplitude - x;
+    }
+}
+
+// Main loop
+int main() {
+    char R[4]; 
+    char A[4];
+    int Ab, P0b;  // Amplitude and zero point in bit format
+    int Amplitude, Resolution;
+    
+// The user enters only amplitude value in bit format
+    printf("Enter the amplitude in bits\n");
+    fgets(A, sizeof(A), stdin);
+    Ab = atof(A);
+
+    P0b = 0;
+
+    printf("The amplitude: %d , The triangle starts at: %d\n\n", Ab, P0b);
+
+    Amplitude = pow(X, Ab);
+    Resolution = 2* Amplitude;
+
+    printf("The amplitude: %d, The resolution %d , Zeropoint %d\n", Amplitude, Resolution, P0b);
+    
+// writing data to file loop
+
+    FILE *f = fopen("text.txt", "w");
+    if (f == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+
+    // Loop 0 to max incrementation
+    for (int i = 0; i < Amplitude; ++i) {
+        int outputValue = triangle_wave(i, Amplitude);
+        fprintf(f, "%6d\n", outputValue);
+    }
+
+    // Loop max to 0 decrementation
+    for (int i = Amplitude - 1; i >= 0; --i) {
+        int outputValue = triangle_wave(i, Amplitude);
+        fprintf(f, "%6d\n", outputValue);
+    }
+
+    fclose(f);
+    return 0;
+}
