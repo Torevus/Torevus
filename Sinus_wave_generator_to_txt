@@ -7,8 +7,8 @@ int main()
 {
     char R[4]; // resolution in bits
     char A[4]; // amplitude in bits
-    double Rb, Ab, P0b; // resolution, amplitude and zero point in double
-    double Amplitude, Resolution, Zeropoint, Outputvalue;
+    float Rb, Ab, P0b; // resolution, amplitude and zero point in double
+    float Amplitude, Resolution, Zeropoint, Outputvalue;
     int X = 2;
     int whenvalue = 0;
     
